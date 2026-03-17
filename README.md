@@ -1,142 +1,132 @@
-# 📉 Understanding Double Descent in Machine Learning
+# 📉 The Double Descent Phenomenon in High-Dimensional Linear Regression
 
-### Simulation-based exploration of model complexity in high-dimensional regression
+### A Theoretical and Empirical Study
 
-This project implements a **simulation framework** to study the **double descent phenomenon** in linear regression.
+This project investigates the **Double Descent phenomenon** in modern machine learning through a combination of **theoretical insights and simulation-based experiments**.
 
-It demonstrates how test error behaves as model complexity increases, especially in **high-dimensional (p ≥ n) settings**.
+It bridges the gap between **classical statistical learning theory** and the behavior of **overparameterized models**.
+
+---
+
+## 🎯 Research Motivation
+
+Classical learning theory predicts a **U-shaped curve** between model complexity and test error (bias–variance tradeoff).
+
+However, modern models often show:
+
+* A second decrease in test error
+* Even after perfectly fitting training data
+
+This leads to the **Double Descent phenomenon**, where:
+
+👉 Test error increases near interpolation
+👉 Then decreases again in highly overparameterized regimes
+
+Understanding this behavior is essential for explaining the success of:
+
+* Deep learning models
+* High-dimensional systems
+
+
 
 ---
 
 ## 🎯 Problem Statement
 
-Classical learning theory suggests that increasing model complexity leads to overfitting.
+The project focuses on understanding:
 
-However, modern machine learning models often exhibit:
+* Why test error peaks near the interpolation threshold (p ≈ n)
+* What causes the second descent in overparameterized regimes
+* How factors like:
 
-* Rising test error near interpolation
-* Followed by improved performance in highly overparameterized regimes
+  * Noise variance
+  * Feature correlation
+  * Dimensional scaling
+    affect generalization performance
 
-This behavior is known as **double descent**.
 
-The goal of this project is to:
-
-👉 Simulate and analyze this phenomenon
-👉 Understand instability near the interpolation threshold
-👉 Study the effect of regularization and noise
 
 ---
 
 ## 🧠 Project Overview
 
-The project builds an end-to-end simulation pipeline:
+The study combines **theoretical analysis + simulations**:
 
 ```text
 Synthetic Data Generation
         ⬇️
-Feature-to-Sample Ratio (p/n)
+High-Dimensional Scaling (p/n)
         ⬇️
 OLS (Minimum-Norm Solution)
         ⬇️
 Ridge Regression
         ⬇️
-Test Error Computation
+Test Error Analysis
         ⬇️
-Condition Number Analysis
-        ⬇️
-Visualization
+Spectral & Conditioning Analysis
 ```
 
 ---
 
-## 📊 Simulation Setup
+## 📐 Mathematical Framework
 
-Data is generated using a synthetic linear model:
+The project uses:
 
-[
-X \sim \mathcal{N}(0, \Sigma), \quad y = X\beta + \epsilon
-]
+* Bias–Variance decomposition
+* Gaussian feature assumptions
+* Prediction risk as a function of p/n
 
-Where:
+Goal:
 
-* ( \Sigma ) controls feature correlation
-* ( \epsilon \sim \mathcal{N}(0, \sigma^2) ) is noise
+👉 Derive insights into how dimensionality impacts generalization
 
-Key parameter:
 
-* **p/n ratio** — controls model complexity
 
 ---
 
-## 🛠️ Key Components
+## 🔍 Spectral Analysis & Matrix Conditioning
 
-### 1️⃣ Data Generation
+A key focus is on:
 
-* Gaussian feature generation
-* Optional feature correlation (Toeplitz covariance)
-* Randomized trials for robustness
+* Singular Value Decomposition (SVD)
+* Eigenvalue distribution of covariance matrices
 
----
+Findings:
 
-### 2️⃣ Model Complexity Control
+* Conditioning worsens near p ≈ n
+* Leads to instability and error peak
+* Stabilizes again in overparameterized regime
 
-* Vary number of features ( p ) relative to samples ( n )
-* Explore:
+This explains the **mechanism behind double descent**
 
-  * Underparameterized regime (p/n < 1)
-  * Interpolation threshold (p/n ≈ 1)
-  * Overparameterized regime (p/n > 1)
+
 
 ---
 
-### 3️⃣ Modeling Approaches
+## 🧪 Experimental Strategy
 
-#### OLS (Minimum-Norm Solution)
+Theoretical insights are validated using simulations:
 
-* Uses pseudoinverse:
-  [
-  w = X^{+} y
-  ]
-* Works in both under- and overparameterized regimes
-* Highly unstable near p/n ≈ 1
+* Synthetic datasets with controllable:
 
----
+  * Feature correlation
+  * Noise
+  * Dimensionality
 
-#### Ridge Regression
+* Test error tracked across p/n
 
-* Regularized solution:
-  [
-  w = (X^T X + \lambda I)^{-1} X^T y
-  ]
-* Improves numerical stability
-* Reduces variance and peak error
+* Ridge regularization added to study smoothing effects
+
+
 
 ---
 
-### 4️⃣ Model Evaluation
+## 📊 Key Observations
 
-Metric: **Mean Squared Error (MSE)**
-
-* Evaluated on independent test data
-* Averaged across multiple trials
-* Variability also measured
-
----
-
-### 5️⃣ Numerical Stability Analysis
-
-* Computes condition number of ( X^T X )
-* Shows instability near interpolation threshold
-* Connects linear algebra to generalization behavior
-
----
-
-## 📈 Key Observations
-
-* 📉 Test error peaks near p/n ≈ 1
-* ⚠️ Ill-conditioned matrices amplify noise
-* 🔁 Error decreases again in overparameterized regime
-* 🛡️ Ridge regularization smooths the curve
+* 📉 Error spikes near interpolation threshold
+* ⚠️ Ill-conditioning amplifies noise
+* 🔁 Error decreases again in high dimensions
+* 🛡️ Ridge regularization stabilizes predictions
 
 ---
 
@@ -144,42 +134,41 @@ Metric: **Mean Squared Error (MSE)**
 
 * Python
 * NumPy
+* SciPy
 * Matplotlib
-
 
 ---
 
 ## 💡 What This Project Demonstrates
 
-* Simulation of modern ML phenomena
-* Understanding beyond bias–variance tradeoff
-* Numerical linear algebra in machine learning
-* Effect of regularization in high dimensions
+* Understanding of modern ML theory
+* High-dimensional statistics
+* Numerical linear algebra in ML
+* Simulation-based validation of theory
+* Bridging theory and practice
 
 ---
 
 ## 🎯 Why This Matters
 
-Double descent explains behavior in:
+This phenomenon explains why:
 
-* Deep learning models
-* Overparameterized systems
-* Modern ML architectures
+* Deep neural networks generalize well
+* Overparameterized models outperform classical expectations
 
-This project provides a **controlled experimental setup** to study these effects.
+This project provides a **controlled framework** to study these effects.
 
 ---
 
 ## 📌 Project Highlights
 
-* Built a simulation framework for high-dimensional regression
-* Implemented minimum-norm OLS and ridge regression
-* Analyzed model behavior across regimes
-* Connected theory with empirical results
+* Developed a simulation framework for double descent
+* Analyzed interpolation threshold behavior
+* Connected spectral properties with generalization
+* Demonstrated impact of ridge regularization
+
 
 ---
-
-
 
 ## ⭐ If you found this useful
 
